@@ -1,0 +1,145 @@
+/* style.css */
+@font-face {
+    font-family: 'Jersey 10';
+    src: url('./Jersey10-Regular.ttf') format('truetype');
+}
+
+
+  .npc-container {
+    position: absolute;
+    font-family: 'Jersey 10', monospace;
+    cursor: move; /* Cursor indicates element is movable */
+  }
+
+  #npc1-container {
+    top: 750px;
+    left: 100px;
+  }
+  
+  #npc2-container {
+    top: 800px;
+    left: 1200px;
+  }
+  
+  #npc3-container {
+    top: 220px;
+    left: 780px;
+  }
+  
+  .show {
+    display: block;
+  }
+  
+  .hidden {
+    display: none;
+  }
+
+
+
+.npc-area {
+    background-image: url('background.png');
+    background-size: 1600px 1200px;
+    background-position: left top;
+    background-repeat: no-repeat;
+    /* Set dimensions if necessary */
+    width: 100%;
+    height: 100vh; /* Example height, adjust as needed */
+}
+
+.npc {
+    width: 100%;  /* Ensures the npc div fills the container */
+    height: 100%; /* Ensures the npc div fills the container */
+    display: flex; /* Uses flexbox to center the image */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+}
+
+.npc-image {
+    width: 200px;  /* Fixed width for the image */
+    height: 200px; /* Fixed height for the image */
+    object-fit: contain;  /* Ensures the image is scaled correctly within the bounds */
+}
+
+@keyframes slideRightToLeft {
+    0%, 100% {
+        transform: translateX(0); /* Start and end at the original position */
+    }
+    50% {
+        transform: translateX(20px); /* Move 20 pixels to the right */
+    }
+}
+
+.npc-animate {
+    animation: slideRightToLeft 2s infinite ease-in-out; /* Apply the animation */
+}
+
+
+@keyframes typewriter {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+.response-box {
+    width: 300px;  /* Fixed width; adjust as necessary */
+    height: 150px;  /* Fixed height; adjust as necessary */
+    overflow: auto;  /* Enables scrollbar when content overflows */
+    border: 0px ;
+    padding: 5px;
+    margin-top: 5px;
+    font-family: 'Jersey 10', monospace;
+    font-size: 24px; /* Sets the font size to 16px */
+    border-radius: 10px; /* Adds rounded corners to the box */
+    background-color: white; /* Setting the background to white */
+}
+
+.typewriter {
+    white-space: nowrap;  /* Keeps the text in a single line for typewriter effect */
+    overflow: hidden;  /* Hides anything that goes beyond the bounds */
+    width: 0;
+    animation: typewriter 4s steps(40) 1s normal both, blinkTextCursor 500ms steps(40) infinite normal;
+}
+@keyframes blinkTextCursor {
+    from { border-right-color: rgba(0,0,0,0.75); }
+    to { border-right-color: transparent; }
+}
+
+.response-box.typing {
+    border-right: 2px solid rgba(0,0,0,0.75); /* Simulates the cursor */
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+.blinking {
+    animation: blink 1s linear infinite;
+}
+
+#dialog-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 1600px;
+    padding: 10px;
+    padding-bottom: 40px  ;
+    font-family: 'Jersey 10', monospace;
+    font-size: 32px; /* Sets the font size to 16px */
+    border-top: 0 px solid #ccc;
+    box-shadow: 0 -1px 6px rgba(0,0,0,0.1);
+    text-align: center;
+    z-index: 1000; /* Ensures it appears above other content */
+    background-image: url('scroll.png'); /* Sets the background image */
+    background-size: cover; /* Ensures the image covers the entire box */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+}
+
+.title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin: 10px;  /* Provides some spacing from the edge */
+    color: white;  /* Adjust based on your background for visibility */
+    font-family: 'Jersey 10', sans-serif;  /* Your custom font */
+    font-size: 4rem;  /* Adjust the size as necessary */
+}
