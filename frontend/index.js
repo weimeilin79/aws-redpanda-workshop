@@ -8,29 +8,20 @@ const app = express();
 const server = http.createServer(app);
 const io = socketIo(server);
 
-const brokers = process.env.REDPANDA_BROKERS ? process.env.REDPANDA_BROKERS.split(',') : ['localhost:19092'];
-const saslMechanism = process.env.REDPANDA_SASL_MECHANISM || 'SCRAM-SHA-256';
-const username = process.env.REDPANDA_USERNAME || 'workshop';
-const password = process.env.REDPANDA_PASSWORD || '1234qwer';
-
 const kafka = new Kafka({
     clientId: 'rpg-frontend',
-    brokers: brokers,
-    ssl: {},
-    sasl: {
-        mechanism: saslMechanism,
-        username: username,
-        password: password
-    }
-});
-
+    brokers: ['localhost:19092'] // Your Kafka broker
+  });
 const producer = kafka.producer();
 const consumer = kafka.consumer({ groupId: 'rpg-group' });
-  
+const bonusConsumer = kafka.consumer({ groupId: 'bonus-group' });
+
 const setupKafka = async () => {
     await producer.connect();
     await consumer.connect();
+    await bonusConsumer.connect();
     await consumer.subscribe({ topic: 'rpg-response' });
+    await bonusConsumer.subscribe({ topic: 'bonus' });
 
     consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
@@ -39,6 +30,14 @@ const setupKafka = async () => {
           io.emit('receive-message', jsonData);  // Emit as a JavaScript object
         },
       });
+
+    bonusConsumer.run({
+        eachMessage: async ({ topic, partition, message }) => {
+          const value = message.value.toString();  
+          const jsonData = JSON.parse(value);  
+          io.emit('bonus-message', jsonData);  
+        },
+    });
   };
 
   setupKafka();
@@ -57,6 +56,6 @@ const setupKafka = async () => {
 
 app.use(express.static('public'));
 
-server.listen(3000, () => {
+server.listen(8080, () => {
   console.log('Server running on http://localhost:3000');
 });
