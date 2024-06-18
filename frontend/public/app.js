@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const sockets = io();
     const npcContainers = document.querySelectorAll('.npc-container');
 
+
     npcContainers.forEach(container => {
         let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
@@ -110,4 +111,26 @@ socket.on('receive-message', function(data) {
     responseBox.classList.add('typing');
 
     typeWriter(data.msg, responseBoxId);
+});
+
+
+socket.on('bonus-message', function(data) {
+    console.log('bonus-message', data.bonus);
+    const dataContainer = document.getElementById('data-container');
+    
+        
+    dataContainer.textContent = data.bonus;
+    dataContainer.style.display = 'block';
+   
+        setTimeout(() => {
+            dataContainer.style.display = 'none';
+        }, 5000);
+    
+        
+        dataContainer.classList.add('blinking');
+        setTimeout(() => {
+            dataContainer.classList.remove('blinking');
+        }, 3000);
+    
+    
 });
