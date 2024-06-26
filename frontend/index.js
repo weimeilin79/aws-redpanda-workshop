@@ -67,6 +67,6 @@ const setupKafka = async () => {
 
 app.use(express.static('public'));
 
-server.listen(8080, () => {
-  console.log('Server running on http://localhost:3000');
+server.listen(80, () => {
+  console.log('Server running on http://localhost');
 });
